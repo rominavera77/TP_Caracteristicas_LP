@@ -1,0 +1,50 @@
+###############################  JAVA  ################################
+
+CompilationUnit:
+    [[Annotations] package QualifiedIdentifier ;]
+                                {ImportDeclaration} {TypeDeclaration}
+
+TypeDeclaration:
+    ClassOrInterfaceDeclaration
+    ;
+
+ClassOrInterfaceDeclaration:
+    {Modifier} (ClassDeclaration | InterfaceDeclaration)
+
+ClassDeclaration:
+    NormalClassDeclaration
+    EnumDeclaration
+
+ClassDeclaration:
+    NormalClassDeclaration
+    EnumDeclaration
+
+NormalClassDeclaration:
+    class Identifier [TypeParameters]
+                                [extends Type] [implements TypeList] ClassBody
+
+ClassBody:
+    { { ClassBodyDeclaration } }
+
+ClassBodyDeclaration:
+    ;
+    {Modifier} MemberDecl
+    [static] Block
+
+Block:
+    { BlockStatements }
+
+BlockStatements:
+    { BlockStatement }
+
+BlockStatement:
+  [Identifier :] Statement
+
+Statement:
+  if ParExpression Statement [else Statement]
+
+ParExpression:
+  ( Expression )
+
+Expression:
+    Expression1 [AssignmentOperator Expression1]

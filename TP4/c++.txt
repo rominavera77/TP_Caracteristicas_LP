@@ -1,0 +1,19 @@
+##############################   C++   ################################
+
+  attribute-specifier-seq:
+ 	attribute-specifier     C++0x
+ 	attribute-specifier-seq attribute-specifier     C++0x
+
+statement:
+ 	labeled-statement
+ 	attribute-specifier-seqopt expression-statement     C++0x
+ 	attribute-specifier-seqopt compound-statement     C++0x
+ 	attribute-specifier-seq opt selection-statement     C++0x
+ 	attribute-specifier-seqopt iteration-statement     C++0x
+ 	attribute-specifier-seqopt jump-statement     C++0x
+ 	declaration-statement
+ 	attribute-specifier-seqopt try-block
+
+selection-statement:
+ 	if ( condition ) statement
+ 	if ( condition ) statement else statement

@@ -1,0 +1,93 @@
+###############################   KOTLING   #################################
+
+KotlinFile
+  : shebangLine? fileAnnotation* packageHeader importList topLevelObject* EOF
+  ;
+
+topLevelObject (used by kotlinFile)
+  : declaration semis?
+  ;
+
+declaration (used by topLevelObject, classMemberDeclaration, statement)
+  : classDeclaration
+  | objectDeclaration
+  | functionDeclaration
+  | propertyDeclaration
+  | typeAlias
+  ;
+
+classDeclaration (used by declaration)
+  : modifiers? ('class' | ('fun'? 'interface'))
+    simpleIdentifier typeParameters?
+    primaryConstructor?
+    (':' delegationSpecifiers)?
+    typeConstraints?
+    (classBody | enumClassBody)?
+  ;
+
+classBody (used by classDeclaration, companionObject, objectDeclaration, enumEntry, objectLiteral)
+  : '{' classMemberDeclarations '}'
+  ;
+
+classMemberDeclarations (used by classBody, enumClassBody)
+  : (classMemberDeclaration semis?)*
+  ;
+
+classMemberDeclaration (used by classMemberDeclarations)
+  : declaration
+  | companionObject
+  | anonymousInitializer
+  | secondaryConstructor
+  ;
+
+anonymousInitializer (used by classMemberDeclaration)
+  : 'init' block
+  ;
+
+block (used by anonymousInitializer, functionBody, secondaryConstructor, controlStructureBody, tryExpression, catchBlock,
+       finallyBlock)
+  : '{' statements '}'
+  ;
+
+statements (used by block, lambdaLiteral)
+  : (statement (semis statement)*)? semis?
+  ;
+
+statement (used by script, statements, controlStructureBody)
+  : (label | annotation)* (declaration | assignment | loopStatement | expression)
+  ;
+
+assignment (used by statement)
+  : ((directlyAssignableExpression '=') | (assignableExpression assignmentAndOperator)) expression
+  ;
+
+directlyAssignableExpression (used by assignment, parenthesizedDirectlyAssignableExpression)
+  : postfixUnaryExpression assignableSuffix
+  | simpleIdentifier
+  | parenthesizedDirectlyAssignableExpression
+  ;
+
+postfixUnaryExpression (used by prefixUnaryExpression, directlyAssignableExpression)
+  : primaryExpression postfixUnarySuffix*
+  ;
+
+postfixUnaryExpression (used by prefixUnaryExpression, directlyAssignableExpression)
+  : primaryExpression postfixUnarySuffix*
+  ;
+
+postfixUnarySuffix (used by postfixUnaryExpression)
+  : postfixUnaryOperator
+  | typeArguments
+  | callSuffix
+  | indexingSuffix
+  | navigationSuffix
+  ;
+
+primaryExpression (used by postfixUnaryExpression)
+  :ifExpression;
+
+ifExpression (used by primaryExpression)
+  : 'if' '(' expression ')'
+    (controlStructureBody | (controlStructureBody? ';'? 'else' (controlStructureBody | ';')) | ';')
+  ;
+
